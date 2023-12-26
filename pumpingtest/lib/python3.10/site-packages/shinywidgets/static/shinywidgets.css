@@ -1,0 +1,36 @@
+/*
+  The child of this container, .lmWidget also does this, so seems harmless
+  to add (and yields better, more pixel-perfect results)
+*/
+.shiny-ipywidget-output {
+  overflow: hidden;
+}
+
+/*
+  .html-fill-item defaults to `flex-basis: auto`, which works well when item's
+  all have consistent height, but we can't assume that (because different
+  widgets want different height defaults). By setting `flex-basis: 400px`,
+  we let widgets keep its natural height (when not filling), but when filling,
+  widgets will all grow/shrink to a consistent height.
+*/
+.shiny-ipywidget-output.html-fill-container > .lm-Widget.html-fill-item {
+  flex-basis: 400px;
+  width: 100%;
+}
+
+/*
+* Our fill.css ends up overriding this rule from bqplot...
+* https://github.com/bqplot/bqplot/blob/c186fcd/js/less/bqplot.less#L170
+*/
+.bqplot > svg {
+  flex-grow: 1 !important;
+}
+
+/*
+* For some reason ipyleaflet puts `flex: 1` on the .lm-Widget container
+* which breaks our filling layout setup.
+* This fixes it (by putting higher priority) on `flex: 0`.
+*/
+.html-fill-container > .lm-Widget:not(.html-fill-item) {
+  flex: 0 0 auto;
+}
