@@ -17,9 +17,9 @@ def import_data_from_file(filename):
     df = pd.read_csv(filename)
     return df
 
-def calc_drawdown(level:pd.Series):
-    ds = level - level[0]
-    return ds
+# def calc_drawdown(level:pd.Series):
+#     ds = level - level[0]
+#     return ds
 
 def linear(x, a, b):
     """
@@ -53,7 +53,7 @@ def calc_estimated_yield(T:float):
     """
     return 40 * T / 10
 
-def step_test_plot(Q:pd.Series, spec_ds:pd.Series, title='Your title here'):
+def step_test_plot(Q:pd.Series, spec_ds:pd.Series, title=None):
     """
     Q: yield, as input by user
     spec_ds: specific drawdown, calculated as s/Q
@@ -105,11 +105,11 @@ def step_test_plot(Q:pd.Series, spec_ds:pd.Series, title='Your title here'):
     
     ax[0].set_xlabel('Yield [m\u00b3/h]', size=14)
     ax[0].set_ylabel('Specific Drawdown [m\u00b2/h]', size=14)
-    ax[0].set_title(f'{title} - Specific Drawdown Vs. Yield', size=22)
+    ax[0].set_title(f'Specific Drawdown Vs. Yield, {title}' if title else 'Specific Drawdown Vs. Yield', size=22)
 
     ax[1].set_xlabel('Yield [m\u00b3/h]', size=14)
-    ax[1].set_ylabel('Head losses [m]', size=14)
-    ax[1].set_title(f'{title} - Linear Vs. Non-linear Head Losses', size=22)
+    ax[1].set_ylabel('Drawdown [m]', size=14)
+    ax[1].set_title(f'Linear Vs. Non-linear Head Losses, {title}' if title else 'Linear Vs. Non-linear Head Losses', size=22)
     ax[1].legend(loc='best')
 
     # text = f'{m:.3f}\u00b7t + {c:.3f}'
@@ -236,52 +236,65 @@ def normal_drawdown_plot(t:pd.Series, ds:pd.Series, reverse_y=True, title='Your 
     # plt.show()
     return ax, d
 
-def normal_drawdown_plotly(t:pd.Series, ds:pd.Series, reverse_y=True, title='Your title here', log_x=False, guess=15, t0=10):
-    """
-    t: time elapsed
-    ds: drawdown in m
-    """
-    t = t.astype('float')
-    t_crop, ds_crop = np.log(t[1:guess+1]), ds[1:guess+1]
-    popt, pcov = curve_fit(linear, t_crop, ds_crop)
-    m, c = popt[0], popt[1]
+# def normal_drawdown_plotly(t:pd.Series, ds:pd.Series, reverse_y=True, title='Your title here', log_x=False, guess=15, t0=10):
+#     """
+#     t: time elapsed
+#     ds: drawdown in m
+#     """
+#     t = t.astype('float')
+#     t_crop, ds_crop = np.log(t[1:guess+1]), ds[1:guess+1]
+#     popt, pcov = curve_fit(linear, t_crop, ds_crop)
+#     m, c = popt[0], popt[1]
     
-    y_fit = m * np.log(t) + c
+#     y_fit = m * np.log(t) + c
 
-    fig = px.scatter(
-        x=t,
-        y=ds,
-        labels=dict(x='Elapsed time semi-log [min]' if log_x else 'Elapsed time [min]', y='Drawdown [m]'),
-        title=title,
-        width=800,
-        height=600,
-        log_x=log_x
-    )
+#     fig = px.scatter(
+#         x=t,
+#         y=ds,
+#         labels=dict(x='Elapsed time semi-log [min]' if log_x else 'Elapsed time [min]', y='Drawdown [m]'),
+#         title=title,
+#         width=800,
+#         height=600,
+#         log_x=log_x
+#     )
 
-    if log_x:
-        fig.add_trace(
-            px.line(
-                x=t,
-                y=y_fit,
-                # color='red',
-                # linewidth=1
-            )
-        )
+#     if log_x:
+#         fig.add_trace(
+#             px.line(
+#                 x=t,
+#                 y=y_fit,
+#                 # color='red',
+#                 # linewidth=1
+#             )
+#         )
 
-    if reverse_y:
-        fig.update_yaxes(
-            autorange='reversed',   
-        )
-    fig.update_yaxes(rangemode='tozero')
-    fig.update_xaxes(rangemode='tozero')
+#     if reverse_y:
+#         fig.update_yaxes(
+#             autorange='reversed',   
+#         )
+#     fig.update_yaxes(rangemode='tozero')
+#     fig.update_xaxes(rangemode='tozero')
 
-    return fig
+#     return fig
 
 ### TESTING
     
 # fname = 'test.csv'
+# fname = 'step_test.csv'
 # data = import_data_from_file(fname)
-# data['drawdown_m'] = calc_drawdown(data.level_m)
+# data['drawdown_m'] = data.level_m - 20.95
 # print(data)
 
 # normal_drawdown_plotly(data.time_min, data.drawdown_m)
+
+# def get_specific_drawdown(data, no_steps=4):
+#     time = [120,240,360,480]
+#     avg_q = [4.2,9.8,17.5,22.1]
+#     ds = []#[3.2,8,14.7,19]
+#     for t in time:
+#         ds.append((data.loc[data.time_min == t, 'drawdown_m'].item()))
+#     spec_ds = [i / j for i,j in zip(ds, avg_q)]
+#     spec_c = [j*24 / i for i,j in zip(ds, avg_q)]
+#     return pd.DataFrame(list(zip(time,ds,avg_q,spec_ds,spec_c)), columns=['time_min','ds_m','Q_m3/h','s/Q_h/m2', 'Q/s_m2/d'])
+
+# print(get_specific_drawdown(data))
