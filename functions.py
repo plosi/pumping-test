@@ -8,7 +8,7 @@ from scipy.optimize import curve_fit
 ### Chart imports
 import matplotlib.pyplot as plt
 import seaborn as sns
-import plotly.express as px
+# import plotly.express as px
 
 
 
@@ -17,10 +17,6 @@ def import_data_from_file(filename):
     df = pd.read_csv(filename)
     return df
 
-# def calc_drawdown(level:pd.Series):
-#     ds = level - level[0]
-#     return ds
-
 def linear(x, a, b):
     """
     x: independent variable
@@ -28,19 +24,16 @@ def linear(x, a, b):
     """
     return a * x + b
 
-def cooper_jacob(Q:float, ds:float, recovery=False):
+def cooper_jacob(Q:float, ds:float):
     """
     Q: average pumping flowrate [m^3/day]
     ds: drawdown from semi-log chart [m]
     
     Return the aquifer's transmissivity in m^2/day according to Cooper-Jacob's
     formula (semplification of Theis' method):
-    T = 0.180*Q/ds
+    T = 0.183*Q/ds
     """
-    if not recovery:
-        return 0.180 * Q / ds
-    else:
-        return 0.183 * Q / ds
+    return 0.183 * Q / ds
 
 def calc_estimated_yield(T:float):
     """

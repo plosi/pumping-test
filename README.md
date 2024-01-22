@@ -5,3 +5,29 @@ The following tests are considered:
 - Step drawdown test
 - Constant-rate test
 - Recovery test
+
+## How to use the app
+1. Select the type of pumping test that you want to analyse.
+2. Load the file with your data. Please note that at the moment the only format accepted is 
+".csv" (separator: comma) with two columns named "time_min" and "level_m": the first column represents 
+the elapsed time in minutes, the second one represents the water level measured in meters from the 
+datum.
+3. Fill in the "General Information" (optional) and the "Data Input" fields. Please note that the 
+borehole name is used in the title of the charts.
+4. Explore the "Data Preview" tab. If you are running the step-drawdown test interpretation, 
+check the chart in this session to see if the steps are correctly timed.
+5. Check the "Analysis" tab to view the results. If you are running the constant-rate or recovery 
+test interpretation, use the slider to get the best fit before accepting the results.
+6. Click on the "Report" button and fill in the sections in the auto-generated template.
+7. Print or save the report as pdf file.
+            
+## Future improvements (work in progress...)
+- Make the charts interactive (use plotly).
+- Load handwritten forms using the phone/tablet camera.
+- Use AI algorithms to improve accuracy of the results by comparing the curves with similar cases and 
+providing additional insights on the borehole's efficiency and aquifer's characteristics.
+- Allow also ".xls/xlsx" files.
+- Allow for different units of measurements.
+- Allow for no specific file format, i.e. let the user select which columns correspond to the elapsed time 
+and water levels when they load a new data file.
+- Allow the user to import a single file for constant-rate and recovery test.

@@ -1,7 +1,0 @@
-### TO DO ###
-
-DONE - Add a Welcome tab that is the only one open when you start the application
-- Input, Data, and Analysis tab only appear after the data is loaded
-DONE - Fix the specific drawdown reactive calculation
-- When new csv uploaded, let the user choose which column is the time and which is the water level
-- Display better results for step drawdown test
