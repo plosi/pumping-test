@@ -1,3 +1,5 @@
 # ignore all txt and csv files
 *.txt
 *.csv
+
+/rsconnect-python
