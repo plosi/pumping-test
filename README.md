@@ -7,6 +7,7 @@ The following tests are considered:
 - Recovery test
 
 ## How to use the app
+0. Download the template files.
 1. Select the type of pumping test that you want to analyse.
 2. Load the file with your data. Please note that at the moment the only format accepted is 
 ".csv" (separator: comma) with two columns named "time_min" and "level_m": the first column represents 

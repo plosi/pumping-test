@@ -47,6 +47,7 @@ main_tabs = ui.navset_card_tab(
             </sub></sup>
 
             ## How to use the app
+            0. Download the template files.
             1. Select the type of pumping test that you want to analyse.
             2. Load the file with your data. Please note that at the moment the only format accepted is 
             ".csv" (separator: comma) with two columns named "time_min" and "level_m": the first column represents 
@@ -65,7 +66,8 @@ main_tabs = ui.navset_card_tab(
             - Load handwritten forms using the phone/tablet camera.
             - Use AI algorithms to improve accuracy of the results by comparing the curves with similar cases and 
             providing additional insights on the borehole's efficiency and aquifer's characteristics.
-            - Allow also ".xls/xlsx" files.
+            - Allow add/edit data in the tables directly from the app.
+            - Allow use of ".xls/xlsx" files with different sheets.
             - Allow for different units of measurements.
             - Allow for no specific file format, i.e. let the user select which columns correspond to the elapsed time 
             and water levels when they load a new data file.
@@ -274,7 +276,7 @@ app_ui = ui.page_fluid(
             ),
             ui.panel_conditional(
                 'input.data_source === "m"',
-                ui.p('Add your data directly in the table')
+                ui.p('Add your data directly in the table (not implemented yet)')
             ),
             ui.div(
                 {'class': 'card'},
