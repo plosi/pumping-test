@@ -18,11 +18,10 @@ borehole name is used in the title of the charts.
 check the chart in this session to see if the steps are correctly timed.
 5. Check the "Analysis" tab to view the results. If you are running the constant-rate or recovery 
 test interpretation, use the slider to get the best fit before accepting the results.
-6. Click on the "Report" button and fill in the sections in the auto-generated template.
-7. Print or save the report as pdf file.
             
 ## Future improvements (work in progress...)
 - Make the charts interactive (use plotly).
+- Add a "Create Report" button to print a pdf report with the test results.
 - Load handwritten forms using the phone/tablet camera.
 - Use AI algorithms to improve accuracy of the results by comparing the curves with similar cases and 
 providing additional insights on the borehole's efficiency and aquifer's characteristics.
