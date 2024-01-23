@@ -6,6 +6,8 @@ The following tests are considered:
 - Constant-rate test
 - Recovery test
 
+### [Live demo](https://plosi.shinyapps.io/pumpingtest/) on shinyapps.io
+
 ## How to use the app
 0. Download the template files.
 1. Select the type of pumping test that you want to analyse.
