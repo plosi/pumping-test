@@ -1,0 +1,45 @@
+{
+  "_comment": "Pumping Test Configuration File — JSON Template. All fields shown. Required fields are marked [REQUIRED]. Paths to CSV files are relative to the location of this config file. Reference: ICRC (2011), Technical Review — Practical Guidelines for Test Pumping in Water Wells.",
+
+  "borehole": {
+    "_comment": "Only name and static_level_mbd are required. All other fields are optional.",
+    "name": "YOUR_BOREHOLE_NAME",
+    "static_level_mbd": 0.0,
+    "depth_m": 0.0,
+    "diameter_mm": 0.0,
+    "pump_depth_mbd": 0.0,
+    "datum_height_m": 0.0,
+    "datum_description": "YOUR_DATUM",
+    "location": "YOUR_LOCATION",
+    "gps": [0.0, 0.0],
+    "pump_type": "YOUR_PUMP_TYPE"
+  },
+
+  "test_date": "YYYY-MM-DD",
+  "operator": "YOUR_NAME",
+
+  "constant_rate": {
+    "csv_file": "data/constant_rate.csv",
+    "flowrate_m3h": 0.0,
+    "fit_start_idx": 1,
+    "fit_end_idx": null
+  },
+
+  "recovery": {
+    "csv_file": "data/recovery.csv",
+    "flowrate_m3h": 0.0,
+    "end_of_pumping_min": 0.0,
+    "fit_start_idx": 1,
+    "fit_end_idx": null
+  },
+
+  "step_drawdown": {
+    "csv_file": "data/step_drawdown.csv",
+    "steps": [
+      { "flowrate_m3h": 0.0, "end_time_min": 0.0 },
+      { "flowrate_m3h": 0.0, "end_time_min": 0.0 },
+      { "flowrate_m3h": 0.0, "end_time_min": 0.0 },
+      { "flowrate_m3h": 0.0, "end_time_min": 0.0 }
+    ]
+  }
+}
