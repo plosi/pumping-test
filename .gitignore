@@ -13,3 +13,6 @@ wheels/
 .pytest_cache
 tests/
 pytest.ini
+
+# brainstorms
+app_brainstorms.md
