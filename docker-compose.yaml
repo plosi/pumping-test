@@ -1,0 +1,9 @@
+services:
+  pumping-test:
+    build:
+      context: .
+      dockerfile: PumpingTestDockerfile
+    container_name: pumping-test
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
