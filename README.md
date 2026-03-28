@@ -34,18 +34,17 @@ pumping_test/
 ├── analysis/
 │   ├── constant_rate.py        # Cooper-Jacob analysis (supports dual fit windows)
 │   ├── recovery.py             # Theis recovery analysis
-│   └── step_drawdown.py        # Hantush-Bierschenk analysis
+│   ├── step_drawdown.py        # Hantush-Bierschenk analysis
+│   └── interpretation.py       # Plain-language result interpretation
 ├── in_out/
 │   └── csv_reader.py           # CSV parsing and validation → PumpingTest
+│   └── report.py               # DOCX report generation (python-docx)
 ├── plotting/
 │   ├── common.py               # Shared colour palette and layout helpers
 │   ├── constant_rate.py        # Raw preview + semi-log plot (dual fit support)
 │   ├── recovery.py             # Raw preview + t/t' semi-log plot
 │   ├── step_drawdown.py        # Raw preview + specific drawdown + losses vs Q
 │   └── utils.py                # deliver_plot / deliver_plots helpers
-├── reporting/
-│   ├── interpretation.py       # Plain-language result interpretation
-│   └── report.py               # DOCX report generation (python-docx)
 ├── config/
 │   ├── schema.py               # Pydantic config schemas
 │   ├── loader.py               # JSON / YAML config file loader
@@ -55,7 +54,6 @@ pumping_test/
 │   ├── layout.py               # Full UI definition (sidebar + tabs)
 │   ├── server.py               # Reactive server logic
 │   └── runner.py               # Shared orchestration layer (CLI + Shiny)
-├── tests/                      # pytest test suite
 ├── data/                       # Sample data files
 ├── templates/                  # CSV template files
 ├── cli.py                      # Typer CLI entry point
@@ -175,8 +173,8 @@ and optimistic yield estimate to a decision-maker.
 
 | Download | Format | Contents |
 |---|---|---|
-| Results CSV | `.csv` | All numeric results in tabular form |
-| Plots | `.html` | Interactive Plotly figures (zoom, pan, hover) |
+| Results CSV (coming soon) | `.csv` | All numeric results in tabular form |
+| Plots (coming soon) | `.html` | Interactive Plotly figures (zoom, pan, hover) |
 | Report | `.docx` | Borehole metadata, results table, interpretation, reference |
 
 The DOCX report is an editable Word document, designed as a technical annex that can be incorporated
