@@ -14,5 +14,6 @@ wheels/
 tests/
 pytest.ini
 
-# brainstorms
+# personal files
 app_brainstorms.md
+config.yaml
