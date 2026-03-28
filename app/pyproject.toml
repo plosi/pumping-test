@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pumping-test"
+version = "0.1.0"
+description = "Single-well pumping test analysis"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "great-tables>=0.21.0",
+    "numpy>=2.4.3",
+    "pandas>=3.0.1",
+    "plotly>=6.6.0",
+    "pytest>=9.0.2",
+    "python-docx>=1.2.0",
+    "pyyaml>=6.0.3",
+    "rich>=14.3.3",
+    "shiny>=1.5.1",
+    "shinyswatch>=0.9.0",
+    "shinywidgets>=0.7.1",
+    "typer>=0.24.1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
