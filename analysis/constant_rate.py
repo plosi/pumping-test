@@ -11,6 +11,8 @@ def analyse_constant_rate(
     test: PumpingTest,
     fit_start_idx: int = 1, # Skip t=0 (log(0) is undefined)
     fit_end_idx: Optional[int] = None,  # If None, will use all remaining points
+    fit2_start_idx: Optional[int] = None,   # None = no second fit
+    fit2_end_idx: Optional[int] = None,
 ) -> ConstantRateResult:
     """
     Analyse a constant-rate pumping test using the Cooper-Jacob straight-line method.
@@ -45,50 +47,55 @@ def analyse_constant_rate(
     drawdown = test.drawdown_series
     time = test.time_series
 
-    if fit_end_idx is None:
-        fit_end_idx = len(drawdown)
-    
-    fit_drawdown = drawdown[fit_start_idx:fit_end_idx]
-    fit_time = time[fit_start_idx:fit_end_idx]
+    def _compute_fit(start: int, end: Optional[int]) -> tuple[DrawdownFit, float, float]:
+        """Inner helper — compute fit, T, and yield for one window."""
+        fit_time = time[start:end]
+        fit_drawdown = drawdown[start:end]
 
-    if len(fit_time) < 2:
-        raise ValueError(
-            f"Fit window too small: {len(fit_time)} point(s). "
-            f"Adjust fit_start_idx ({fit_start_idx}) and fit_end_idx ({fit_end_idx})."
+        if len(fit_time) < 2:
+            raise ValueError(
+                f"Fit window too small: {len(fit_time)} point(s). "
+                f"Adjust fit_start_idx ({start}) and fit_end_idx ({end})."
+            )
+        if np.any(fit_time <= 0):
+            raise ValueError("Fit window contains non-positive time values.")
+
+        log_time = np.log(fit_time)
+        slope, intercept = np.polyfit(log_time, fit_drawdown, 1)
+
+        y_pred = slope * log_time + intercept
+        ss_res = np.sum((fit_drawdown - y_pred) ** 2)
+        ss_tot = np.sum((fit_drawdown - np.mean(fit_drawdown)) ** 2)
+        r_squared = float(1 - ss_res / ss_tot) if ss_tot > 0 else 0.0
+
+        ds = slope * np.log(10)
+        flowrate_m3day = test.flowrate_m3h * HOURS_PER_DAY
+        T = COOPER_JACOB_COEFF * flowrate_m3day / ds
+        estimated_yield = MACDONALD_YIELD_COEFFICIENT * T
+
+        fit = DrawdownFit(
+            slope=slope,
+            intercept=intercept,
+            drawdown_per_log_cycle=ds,
+            n_points_used=len(fit_time),
+            r_squared=r_squared,
         )
+        return fit, T, estimated_yield
 
-    if np.any(fit_time <= 0):
-        raise ValueError("Cannot compute log of non-positive time values. Ensure t=0 is excluded from the fit range.")
+    fit, T, estimated_yield = _compute_fit(fit_start_idx, fit_end_idx)
+    flowrate_m3day = test.flowrate_m3h * HOURS_PER_DAY
 
-    # Fit a line to the semi-log plot of drawdown vs. time
-    log_time = np.log(fit_time)
-    slope, intercept = np.polyfit(log_time, fit_drawdown, 1)
-
-    # Calculate R² for the fit
-    y_pred = slope * log_time + intercept
-    ss_res = np.sum((fit_drawdown - y_pred) ** 2)
-    ss_tot = np.sum((fit_drawdown - np.mean(fit_drawdown)) ** 2)
-    r_squared = 1 - (ss_res / ss_tot) if ss_tot > 0 else 0.0
-
-    # Calculate drawdown per log cycle (ds)
-    ds = slope * np.log(10)  # Convert slope to drawdown per log cycle
-
-    # Calculate transmissivity using Cooper-Jacob formula
-    flowrate_m3day = test.flowrate_m3h * HOURS_PER_DAY  # Convert from m³/h to m³/day
-    T = COOPER_JACOB_COEFF * flowrate_m3day / ds
-
-    # Estimate yield as per McDonald et al. (2005) - this is a very rough estimate and should be used with caution
-    estimated_yield_m3day = MACDONALD_YIELD_COEFFICIENT * T
+    # Second fit — only if both start indices are provided
+    fit2, T2, yield2 = None, None, None
+    if fit2_start_idx is not None:
+        fit2, T2, yield2 = _compute_fit(fit2_start_idx, fit2_end_idx)
 
     return ConstantRateResult(
-        fit = DrawdownFit(
-            slope = slope,
-            intercept = intercept,
-            drawdown_per_log_cycle = ds,
-            n_points_used = len(fit_time),
-            r_squared = r_squared
-        ),
-        transmissivity_m2day = T,
-        estimated_yield_m3day = estimated_yield_m3day,
-        flowrate_m3day = flowrate_m3day
+        fit=fit,
+        transmissivity_m2day=T,
+        estimated_yield_m3day=estimated_yield,
+        flowrate_m3day=flowrate_m3day,
+        fit2=fit2,
+        transmissivity2_m2day=T2,
+        estimated_yield2_m3day=yield2,
     )

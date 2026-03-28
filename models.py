@@ -226,6 +226,9 @@ class ConstantRateResult:
     transmissivity_m2day: float    # T [m²/day]
     estimated_yield_m3day: float   # based on MacDonald et al. (2005)
     flowrate_m3day: float          # Q used in analysis [m³/day]
+    fit2: Optional[DrawdownFit] = None                  # second fit, if requested
+    transmissivity2_m2day: Optional[float] = None       # T from second fit
+    estimated_yield2_m3day: Optional[float] = None      # yield from second fit
 
 @dataclass
 class RecoveryResult:

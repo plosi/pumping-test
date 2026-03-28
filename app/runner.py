@@ -28,6 +28,8 @@ def run_constant_rate(
     cr_config: ConstantRateConfig,
     fit_start: Optional[int] = None,
     fit_end: Optional[int] = None,
+    fit2_start: Optional[int] = None,
+    fit2_end: Optional[int] = None,
 ) -> ConstantRateSession:
     """
     Shared orchestration for constant-rate analysis.
@@ -50,6 +52,8 @@ def run_constant_rate(
         test,
         fit_start_idx=resolved_fit_start,
         fit_end_idx=resolved_fit_end,
+        fit2_start_idx=fit2_start,
+        fit2_end_idx=fit2_end,
     )
     return ConstantRateSession(test=test, result=result)
 

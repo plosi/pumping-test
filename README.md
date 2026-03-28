@@ -33,7 +33,6 @@ pumping_test/
 │   ├── loader.py           # JSON/YAML config loader
 │   └── validator.py        # Config validation
 ├── cli.py                  # Typer CLI entry point
-└── tests/                  # pytest test suite
 ```
 
 ## Installation
@@ -115,19 +114,14 @@ python cli.py constant-rate data.csv \
 
 Supported formats: `.html` (interactive), `.png`, `.svg`, `.pdf` (static, requires `kaleido`).
 
-## Running tests
-
-```bash
-pytest tests/
-```
 
 ## Methods and reference
 
 | Test | Method | Reference |
 |---|---|---|
-| Constant-rate | Cooper-Jacob straight-line | ICRC (2011), Section 4.2 |
-| Recovery | Theis recovery | ICRC (2011), Section 5 |
-| Step-drawdown | Hantush-Bierschenk | ICRC (2011), Section 3 |
+| Constant-rate | Cooper-Jacob straight-line | ICRC (2011), Section 5 |
+| Recovery | Theis recovery | ICRC (2011), Section 6 |
+| Step-drawdown | Hantush-Bierschenk | ICRC (2011), Section 4 |
 
 Yield estimates follow MacDonald et al. (2005).
 

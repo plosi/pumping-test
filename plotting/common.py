@@ -30,7 +30,7 @@ def generate_fit_line(
 def apply_default_layout(fig: go.Figure, title: str, x_label: str, y_label: str) -> None:
     """Apply consistent layout to any figure. Mutates fig in place."""
     fig.update_layout(
-        title=title,
+        title=title or "",
         xaxis_title=x_label,
         yaxis_title=y_label,
         template="plotly_white",

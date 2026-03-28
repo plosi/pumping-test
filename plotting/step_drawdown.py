@@ -9,6 +9,7 @@ import numpy as np
 def plot_step_preview(
     test: PumpingTest,
     title: Optional[str] = None,
+    scale_axis: Optional[bool] = False
 ) -> go.Figure:
     fig = go.Figure()
 
@@ -17,15 +18,17 @@ def plot_step_preview(
             x=test.time_series,
             y=test.level_series,
             mode="markers",
-            name="Water Level"
+            name="Water Level",
+            marker=dict(color=COLOURS["data"])
         )
     )
-    fig.update_yaxes(range=[None, 0], autorange = "max reversed")
+    y_min = test.level_series[0] if scale_axis else 0
+    fig.update_yaxes(range=[None, y_min], autorange = "max reversed")
     apply_default_layout(
         fig=fig,
         title=title,
         x_label="Elapsed time [min]",
-        y_label="Water level [mbd]"
+        y_label="Water level [mbd]",
     )
     return fig
 
@@ -47,7 +50,8 @@ def plot_specific_drawdown(
             x=flowrates,
             y=sds,
             mode="markers",
-            name="Specific Drawdown"
+            name="Specific Drawdown",
+            marker=dict(color=COLOURS["data"])
         )
     )
 
@@ -61,7 +65,8 @@ def plot_specific_drawdown(
             x=q_line,
             y=sd_line,
             mode="lines",
-            name=f"Linear fit (R²={result.r_squared:.3f})"
+            name=f"Linear fit (R²={result.r_squared:.3f})",
+            marker=dict(color=COLOURS["fit"])
         )
     )
 
